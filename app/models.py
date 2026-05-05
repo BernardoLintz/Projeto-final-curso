@@ -40,16 +40,16 @@ class Evento(models.Model):
     def __str__(self):
         return self.nome
     
-    class EventoData(models.Model):
+class EventoData(models.Model):
     # Relacionamento: Um evento pode ter várias datas (1:N)
-        evento = models.ForeignKey(Evento, on_delete=models.CASCADE, related_name='datas')
-        data_inicio = models.DateTimeField()
-        data_fim = models.DateTimeField(null=True, blank=True)
+    evento = models.ForeignKey(Evento, on_delete=models.CASCADE, related_name='datas')
+    data_inicio = models.DateTimeField()
+    data_fim = models.DateTimeField(null=True, blank=True)
 
-    class Meta:
-        verbose_name = "Data do Evento"
-        verbose_name_plural = "Datas do Evento"
-        ordering = ['data_inicio']
+class Meta:
+    verbose_name = "Data do Evento"
+    verbose_name_plural = "Datas do Evento"
+    ordering = ['data_inicio']
 
     def __str__(self):
         return f"{self.evento.nome} em {self.data_inicio.strftime('%d/%m/%Y %H:%M')}"
