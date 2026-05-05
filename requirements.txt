@@ -1,3 +1,4 @@
+pillow==12.2.0
 asgiref==3.11.1
 Django==6.0.3
 gunicorn==25.3.0
