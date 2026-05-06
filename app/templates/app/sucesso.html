@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-md mx-auto text-center">
+    <div class="bg-white p-8 rounded-[32px] shadow-2xl border border-gray-100">
+        <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        
+        <h1 class="text-2xl font-bold mb-2">Inscrição Confirmada!</h1>
+        <p class="text-[#86868B] text-sm mb-8">Apresente o código abaixo na entrada do evento.</p>
+
+        <!-- Simulação do QR Code (Integraremos a lib qrcode depois) -->
+        <div class="bg-[#F5F5F7] aspect-square rounded-2xl flex items-center justify-center mb-8 border-2 border-dashed border-gray-300">
+            <span class="text-gray-400 text-xs"><!-- QR Code Real -->
+<div class="bg-white p-4 rounded-2xl shadow-inner mb-8 border border-gray-100 inline-block">
+    {% if inscricao.qr_code %}
+        <img src="{{ inscricao.qr_code.url }}" alt="QR Code do Ingresso" class="w-48 h-48 mx-auto">
+    {% else %}
+        <p class="text-xs text-gray-400">QR Code indisponível</p>
+    {% endif %}
+</div></span>
+        </div>
+
+        <div class="text-left space-y-4 border-t border-gray-100 pt-6">
+            <div>
+                <p class="text-[10px] uppercase tracking-widest text-[#86868B]">Evento</p>
+                <p class="font-semibold">{{ inscricao.evento.nome }}</p>
+            </div>
+            <div class="flex justify-between">
+                <div>
+                    <p class="text-[10px] uppercase tracking-widest text-[#86868B]">Data</p>
+                    <p class="font-semibold">{{ inscricao.data_inscricao|date:"d/m/Y" }}</p>
+                </div>
+                <div>
+                    <p class="text-[10px] uppercase tracking-widest text-[#86868B]">Ticket ID</p>
+                    <p class="font-semibold">#{{ inscricao.id }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button onclick="window.print()" class="mt-8 text-[#0071E3] font-medium text-sm hover:underline">
+        Imprimir ou salvar PDF
+    </button>
+</div>
+{% endblock %}

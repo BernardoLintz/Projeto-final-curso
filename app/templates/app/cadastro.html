@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-sm mx-auto mt-12">
+    <div class="bg-white p-10 rounded-[32px] shadow-2xl border border-gray-100 text-center">
+        <h2 class="text-3xl font-bold tracking-tight mb-2">Criar ID Eventos</h2>
+        <p class="text-[#86868B] text-sm mb-8">Uma conta para todos os seus eventos.</p>
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <div class="text-left">
+                {% for field in form %}
+                    <div class="mb-4">
+                        <label class="text-[11px] font-bold uppercase tracking-widest text-[#86868B] ml-2">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <p class="text-[10px] text-[#86868B] mt-1 ml-2">{{ field.help_text }}</p>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <p class="text-[10px] text-red-500 mt-1 ml-2">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <button type="submit" class="w-full bg-[#0071E3] text-white py-3 rounded-2xl font-semibold hover:bg-[#0077ED] transition-all">
+                Criar conta
+            </button>
+        </form>
+
+        <div class="mt-8 pt-6 border-t border-gray-100">
+            <p class="text-sm text-[#86868B]">
+                Já tem um ID? <a href="{% url 'login' %}" class="text-[#0071E3] hover:underline">Iniciar sessão.</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    input {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid #D2D2D7;
+        margin-top: 4px;
+        font-size: 14px;
+    }
+    input:focus {
+        outline: none;
+        border-color: #0071E3;
+        box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+    }
+</style>
+{% endblock %}

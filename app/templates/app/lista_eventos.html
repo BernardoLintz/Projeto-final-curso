@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Eventos Disponíveis{% endblock %}
+
+{% block content %}
+<header class="mb-12">
+    <h1 class="text-4xl font-bold tracking-tight text-[#1D1D1F]">Eventos</h1>
+    <p class="text-lg text-[#86868B] mt-2">Descubra e reserve experiências únicas.</p>
+</header>
+
+<!-- Grade de Eventos -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for evento in eventos %}
+    <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100">
+        
+        <!-- Imagem do Evento -->
+        <div class="aspect-video w-full overflow-hidden bg-gray-200 relative">
+            {% if evento.imagem %}
+                <img src="{{ evento.imagem.url }}" alt="{{ evento.nome }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            {% else %}
+                <div class="flex items-center justify-center h-full text-gray-400 italic text-xs">Sem imagem</div>
+            {% endif %}
+            
+            <!-- Badge de Categoria -->
+            <span class="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-black">
+                {{ evento.categoria.nome }}
+            </span>
+        </div>
+
+        <!-- Detalhes -->
+        <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+                <h2 class="text-xl font-semibold text-[#1D1D1F] leading-tight">{{ evento.nome }}</h2>
+            </div>
+            
+            <p class="text-sm text-[#86868B] line-clamp-2 mb-4 h-10">
+                {{ evento.descricao }}
+            </p>
+
+            <div class="flex items-center text-xs text-[#1D1D1F] mb-6 space-x-4">
+                <span class="flex items-center">
+                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    {{ evento.espaco.nome }}
+                </span>
+                <span class="font-medium {% if evento.vagas_restantes < 5 %}text-red-500{% endif %}">
+                    {{ evento.vagas_restantes }} vagas
+                </span>
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-gray-50">
+                <span class="text-lg font-semibold tracking-tight">
+                    {% if evento.tipo == 'GRATUITO' %}
+                        Grátis
+                    {% else %}
+                        R$ {{ evento.valor_ingresso }}
+                    {% endif %}
+                </span>
+                <a href="{% url 'detalhe_evento' evento.id %}" class="bg-[#0071E3] text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-[#0077ED] transition-colors">
+                    Detalhes
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-span-full py-20 text-center">
+        <p class="text-gray-500">Nenhum evento encontrado no momento.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
