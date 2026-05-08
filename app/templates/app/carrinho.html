@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load l10n %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-12">
+    <h1 class="text-3xl font-bold mb-8">Seu Carrinho</h1>
+
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        {% for id, item in carrinho.items %}
+        <div class="p-6 flex items-center justify-between border-b border-gray-50">
+            <div class="flex items-center space-x-4">
+                {% if item.imagem %}
+                    <img src="{{ item.imagem }}" class="w-16 h-16 rounded-xl object-cover">
+                {% endif %}
+                <div>
+                    <h3 class="font-semibold">{{ item.nome }}</h3>
+                    <p class="text-sm text-gray-500">1 Ingresso</p>
+                </div>
+            </div>
+            <!-- Preço individual formatado -->
+            <p class="font-bold text-lg">R$ {{ item.preco|floatformat:2 }}</p>
+        </div>
+        {% empty %}
+        <div class="p-20 text-center text-gray-500">Seu carrinho está vazio.</div>
+        {% endfor %}
+
+        {% if carrinho %}
+        <div class="p-8 bg-gray-50 flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-500 uppercase tracking-widest">Total</p>
+                <!-- Total formatado aqui dentro -->
+                <p class="text-3xl font-bold">R$ {{ total|floatformat:2 }}</p>
+            </div>
+            <a href="{% url 'checkout_carrinho' %}" class="bg-[#0071E3] text-white px-10 py-4 rounded-2xl font-bold hover:bg-blue-600 transition-all">
+                Finalizar Compra
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

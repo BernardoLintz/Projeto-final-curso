@@ -1,0 +1,62 @@
+# Ignorar banco de dados local
+db.sqlite3
+# Ignorar ambiente virtual
+venv/
+.venv/
+env/
+# Ignorar arquivos compilados do Python
+__pycache__/
+*.pyc
+# Ignorar variáveis de ambiente (senhas)
+.env
+.DS_Store
+
+----------------------------------------------------------------------
+
+asgiref==3.11.1
+Django==6.0.3
+gunicorn==25.3.0
+packaging==26.2
+sqlparse==0.5.5
+tzdata==2025.3
+whitenoise==6.12.0
+
+---------------------------------------------------------------------
+
+git init
+
+git config --global user.name "nome"
+
+git config --global user.email "your-email@example.com"
+
+python -m venv venv
+
+venv\scripts\activate
+
+*crie um arquivo requirements.txt na pasta fora do venv 
+
+pip install -r requirements.txt
+
+django-admin startproject config .
+
+django-admin startapp app
+
+python manage.py makemigrations
+
+python manage.py migrate
+
+type nul > .gitignore
+
+python manage.py createsuperuser
+
+python manage.py runserver
+
+git add .
+
+git commit m "texto da alteracao"
+
+git bramch -M main
+
+git remote add origin URL do repositorio
+
+git push origin main

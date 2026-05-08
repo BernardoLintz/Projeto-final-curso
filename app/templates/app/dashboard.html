@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto py-10">
+    <header class="mb-10">
+        <h1 class="text-3xl font-bold tracking-tight">Business Intelligence</h1>
+        <p class="text-gray-500">Desempenho da plataforma em tempo real.</p>
+    </header>
+
+    <!-- Cards de Métricas -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+        <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Receita Total</p>
+            <p class="text-2xl font-bold text-green-600">R$ {{ receita_total }}</p>
+        </div>
+        <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Vendas Concluídas</p>
+            <p class="text-2xl font-bold">{{ total_inscritos }}</p>
+        </div>
+        <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Carrinhos Abandonados</p>
+            <p class="text-2xl font-bold text-orange-500">{{ logs_abandonados }}</p>
+        </div>
+        <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Taxa de Conversão</p>
+            <p class="text-2xl font-bold text-blue-600">{{ taxa_conversao }}%</p>
+        </div>
+    </div>
+
+    <!-- Tabela de Interesse -->
+    <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+        <div class="p-6 border-b border-gray-50">
+            <h3 class="font-bold">Ranking de Engajamento por Evento</h3>
+        </div>
+        <table class="w-full text-left">
+            <thead class="bg-gray-50 text-xs text-gray-400 uppercase">
+                <tr>
+                    <th class="px-6 py-4">Evento</th>
+                    <th class="px-6 py-4">Cliques no Carrinho</th>
+                    <th class="px-6 py-4">Vendas</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+                {% for evento in eventos_mais_procurados %}
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4 font-medium">{{ evento.nome }}</td>
+                    <td class="px-6 py-4">{{ evento.num_logs }}</td>
+                    <td class="px-6 py-4">{{ evento.num_vendas }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

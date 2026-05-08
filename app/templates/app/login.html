@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-sm mx-auto mt-20">
+    <div class="bg-white p-10 rounded-[32px] shadow-2xl border border-gray-100 text-center">
+        <h2 class="text-3xl font-bold tracking-tight mb-2">Iniciar sessão</h2>
+        <p class="text-[#86868B] text-sm mb-8">Use sua conta do Eventos.app</p>
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <div class="text-left">
+                {% for field in form %}
+                    <div class="mb-4">
+                        <label class="text-[11px] font-bold uppercase tracking-widest text-[#86868B] ml-2">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <button type="submit" class="w-full bg-black text-white py-3 rounded-2xl font-semibold hover:bg-gray-800 transition-all">
+                Continuar
+            </button>
+        </form>
+
+        <div class="mt-8 pt-6 border-t border-gray-100">
+            <p class="text-sm text-[#86868B]">
+                Não tem uma conta? <a href="{% url 'cadastro' %}" class="text-[#0071E3] hover:underline">Crie a sua agora.</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilizando os inputs padrão do Django para ficarem bonitos */
+    input {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid #D2D2D7;
+        margin-top: 4px;
+        outline-color: #0071E3;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,86 @@
+1. Arquitetura do Banco de Dados (Models)
+Empresa (Company)
+
+Este modelo separa quem organiza de quem consome.
+
+    nome, cnpj, endereco.
+
+    colaboradores: Um relacionamento ManyToMany com o User (para permitir que vários usuários gerenciem a mesma empresa).
+
+Categoria (Category)
+
+    nome (ex: Workshop, Show, Palestra).
+
+Evento (Event)
+
+    empresa: FK para o modelo Empresa (quem está promovendo).
+
+    categoria: FK para o modelo Categoria.
+
+    titulo, descricao, data_hora.
+
+    local: FK para o modelo Espaço (que contém o endereço e lotação).
+
+    tipo: (Pago ou Gratuito).
+
+    preco: Valor do ingresso.
+
+Inscrição (Ticket/Subscription)
+
+Este é o elo final que você mencionou. Ele registra que a venda/reserva aconteceu.
+
+    usuario: FK para o User (o cliente que comprou).
+
+    evento: FK para o Evento.
+
+    data_inscricao: DateTime de quando foi adquirido.
+
+    status: (Pendente, Confirmado, Cancelado).
+
+    qr_code: Campo para salvar o código gerado.
+
+2. Preparação para o BI (Futuro)
+
+Para que você possa implementar o BI "amanhã" sem quebrar o sistema hoje, a dica de ouro é: Use um Custom User Model ou um Profile.
+
+Mesmo que você não use os campos agora, deixe o modelo Profile criado e ligado ao User. No futuro, bastará adicionar campos como idade ou renda lá, e o restante do sistema (Inscrições e Eventos) já estará conectado a ele.
+3. Lógica de "Vagas Esgotadas"
+
+Implementada diretamente no modelo de Evento, cruzando dados com o Espaço e as Inscrições:
+Python
+
+@property
+def vagas_restantes(self):
+    # Pega a lotação máxima do espaço onde o evento ocorrerá
+    lotacao_maxima = self.local.lotacao 
+    # Conta apenas as inscrições confirmadas
+    inscritos = self.inscricoes.filter(status='Confirmado').count()
+    return lotacao_maxima - inscritos
+
+4. Fluxo de Pagamento vs. Gratuito
+
+No seu views.py, a lógica será:
+
+    Usuário solicita ingresso.
+
+    Verificação: if evento.vagas_restantes > 0:
+
+    Decisão de cobrança:
+
+        if evento.tipo == 'Gratuito': Cria a Inscrição como 'Confirmada'.
+
+        if evento.tipo == 'Pago': Cria a Inscrição como 'Pendente' e redireciona para o Stripe/Mercado Pago.
+
+    Finalização: O Webhook do pagamento atualiza a Inscrição para 'Confirmada' e dispara o e-mail com o QR Code.
+
+5. Roteiro de Implementação Sugerido
+
+    Fase 1: Criar os Models (Empresa, Espaço, Categoria, Evento, Inscrição).
+
+    Fase 2: Criar o painel administrativo onde a "Empresa" cadastra o "Evento".
+
+    Fase 3: Criar a página de listagem de eventos para o "Cliente".
+
+    Fase 4: Implementar o botão de inscrição com a lógica de vagas.
+
+    Fase 5: Adicionar o Stripe (Pagamentos) e a geração de QR Code (PDF/Imagem).
