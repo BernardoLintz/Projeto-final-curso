@@ -23,6 +23,9 @@ class Perfil(models.Model):
     telefone = models.CharField(max_length=20, blank=True)
     cpf = models.CharField(max_length=14, unique=True, blank=True, null=True)
     # Adicione campos como 'idade' ou 'interesses' no futuro para o BI
+
+ #localiza a classe Perfil e adiciona o campo is_colaborador
+    is_colaborador = models.BooleanField(default=False, verbose_name="É Assinante Colaborador?")
     
     def __str__(self):
         return f"Perfil de {self.user.username}"

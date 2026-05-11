@@ -195,6 +195,40 @@ def meus_ingressos(request):
     ingressos = Inscricao.objects.filter(usuario=request.user).select_related('evento')
     return render(request, 'app/meus_ingressos.html', {'ingressos': ingressos})
 
+
+@login_required
+def verificar_colaborador(request):
+    # Verificamos se o perfil do usuário possui a assinatura/permissão
+    # Você pode usar um campo booleano 'is_colaborador' no seu Perfil
+    perfil = request.user.perfil
+    
+    # Lógica SE/SENÃO solicitada
+    if perfil.is_colaborador:
+        # Direciona para a página de criação de eventos que já tínhamos
+        return redirect('publicar_evento')
+    else:
+        # Caso não seja, envia uma mensagem e manda para a página de assinatura
+        messages.info(request, "Deseja ser um colaborador e publicar seus eventos? Clique abaixo para assinar.")
+        return redirect('pagina_assinatura') # Nome da URL de compra de assinatura
+
+@login_required
+def verificar_assinatura(request):
+    # Procura o perfil do utilizador logado
+    perfil = request.user.perfil
+    
+    if perfil.is_colaborador:
+        # Se for assinante, vai para a página de criação
+        return redirect('publicar_evento')
+    else:
+        # Se não for, envia mensagem e vai para a venda
+        messages.info(request, "Torna-te um colaborador para publicares os teus próprios eventos!")
+        return redirect('pagina_assinatura')
+
+def pagina_assinatura(request):
+    # Aqui vamos renderizar a página de vendas (estilo Sympla)
+    return render(request, 'app/pagina_assinatura.html')
+
+
 def cadastro(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
