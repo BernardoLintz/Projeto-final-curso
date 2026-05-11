@@ -1,0 +1,39 @@
+    <a href="?categoria={{ label }}" 
+       class="flex flex-col items-center justify-center w-full h-36 bg-white border border-gray-100 rounded-[2rem] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group/card">
+        
+        <div class="p-3 rounded-2xl mb-3 transition-colors
+            {% if color == 'purple' %} bg-purple-50 text-purple-600 group-hover/card:bg-purple-600 {% endif %}
+            {% if color == 'red' %} bg-red-50 text-red-600 group-hover/card:bg-red-600 {% endif %}
+            {% if color == 'pink' %} bg-pink-50 text-pink-600 group-hover/card:bg-pink-600 {% endif %}
+            {% if color == 'orange' %} bg-orange-50 text-orange-600 group-hover/card:bg-orange-600 {% endif %}
+            {% if color == 'green' %} bg-green-50 text-green-600 group-hover/card:bg-green-600 {% endif %}
+            {% if color == 'blue' %} bg-blue-50 text-blue-600 group-hover/card:bg-blue-600 {% endif %}
+            {% if color == 'yellow' %} bg-yellow-50 text-yellow-600 group-hover/card:bg-yellow-600 {% endif %}
+            {% if color == 'indigo' %} bg-indigo-50 text-indigo-600 group-hover/card:bg-indigo-600 {% endif %}
+            {% if color == 'cyan' %} bg-cyan-50 text-cyan-600 group-hover/card:bg-cyan-600 {% endif %}
+            {% if color == 'black' %} bg-gray-100 text-black group-hover/card:bg-black {% endif %}
+            group-hover/card:text-white">
+            
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {% if icon == 'music' %}<path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"/>{% endif %}
+                {% if icon == 'mask' %}<path d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>{% endif %}
+                {% if icon == 'heart' %}<path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>{% endif %}
+                {% if icon == 'mic' %}<path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>{% endif %}
+                {% if icon == 'trophy' %}<path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>{% endif %}
+                {% if icon == 'map' %}<path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>{% endif %}
+                {% if icon == 'ticket' %}<path d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>{% endif %}
+                {% if icon == 'users' %}<path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>{% endif %}
+                {% if icon == 'rocket' %}<path d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>{% endif %}
+                {% if icon == 'shopping-bag' %}<path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>{% endif %}
+                {% if icon == 'academic-cap' %}<path d="M12 14l9-5-9-5-9 5 9 5zm0 0l9-5-9-5-9 5 9 5zm0 0v6.5L7 17l5 3.5 5-3.5v-6.5"/>{% endif %}
+                {% if icon == 'cake' %}<path d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9V9a2 2 0 00-2-2H8a2 2 0 00-2 2v3h12z"/>{% endif %}
+                {% if icon == 'rainbow' %}<path d="M4 10a8 8 0 0116 0M7 10a5 5 0 0110 0M10 10a2 2 0 014 0"/>{% endif %}
+                {% if icon == 'sun' %}<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>{% endif %}
+                {% if icon == 'video' %}<path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>{% endif %}
+                {% if icon == 'play' %}<path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>{% endif %}
+            </svg>
+        </div>
+     <span class="text-[13px] font-bold text-gray-700 text-center px-2 leading-tight group-hover/card:text-gray-900 transition-colors">
+            {{ label }}
+        </span>
+    </a>

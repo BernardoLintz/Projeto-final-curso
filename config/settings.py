@@ -140,8 +140,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'lista_eventos'
-LOGOUT_REDIRECT_URL = 'lista_eventos'
+# settings.py
+
+LOGIN_URL = 'login'  # Nome da URL da sua página de login
+LOGIN_REDIRECT_URL = 'lista_eventos' # Para onde ele vai após logar
+LOGOUT_REDIRECT_URL = 'lista_eventos' # Para onde ele vai após sair
 
 
 load_dotenv()  # Carrega as variáveis do arquivo .env
