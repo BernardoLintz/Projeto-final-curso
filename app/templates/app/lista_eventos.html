@@ -1,70 +1,253 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Eventos Disponíveis{% endblock %}
+{% block title %}evento.app — Descubra Experiências{% endblock %}
 
 {% block content %}
-<header class="mb-12">
-    <h1 class="text-4xl font-bold tracking-tight text-[#1D1D1F]">Eventos</h1>
-    <p class="text-lg text-[#86868B] mt-2">Descubra e reserve experiências únicas.</p>
-</header>
+<div class="space-y-16 pb-20">
 
-<!-- Grade de Eventos -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-    {% for evento in eventos %}
-    <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100">
-        
-        <!-- Imagem do Evento -->
-        <div class="aspect-video w-full overflow-hidden bg-gray-200 relative">
-            {% if evento.imagem %}
-                <img src="{{ evento.imagem.url }}" alt="{{ evento.nome }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-            {% else %}
-                <div class="flex items-center justify-center h-full text-gray-400 italic text-xs">Sem imagem</div>
-            {% endif %}
-            
-            <!-- Badge de Categoria -->
-            <span class="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-black">
-                {{ evento.categoria.nome }}
-            </span>
-        </div>
-
-        <!-- Detalhes -->
-        <div class="p-6">
-            <div class="flex justify-between items-start mb-2">
-                <h2 class="text-xl font-semibold text-[#1D1D1F] leading-tight">{{ evento.nome }}</h2>
-            </div>
-            
-            <p class="text-sm text-[#86868B] line-clamp-2 mb-4 h-10">
-                {{ evento.descricao }}
-            </p>
-
-            <div class="flex items-center text-xs text-[#1D1D1F] mb-6 space-x-4">
-                <span class="flex items-center">
-                    <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    {{ evento.espaco.nome }}
-                </span>
-                <span class="font-medium {% if evento.vagas_restantes < 5 %}text-red-500{% endif %}">
-                    {{ evento.vagas_restantes }} vagas
-                </span>
-            </div>
-
-            <div class="flex items-center justify-between pt-4 border-t border-gray-50">
-                <span class="text-lg font-semibold tracking-tight">
-                    {% if evento.tipo == 'GRATUITO' %}
-                        Grátis
-                    {% else %}
-                        R$ {{ evento.valor_ingresso }}
+    <!-- 1. HERO CAROUSEL -->
+    {% if not query %}
+    <section class="mt-6">
+        <div class="swiper heroSwiper rounded-[2.5rem] overflow-hidden shadow-sm bg-gray-200">
+            <div class="swiper-wrapper">
+                {% for evento in eventos|slice:":3" %}
+                <div class="swiper-slide relative aspect-[21/9] md:aspect-[25/9]">
+                    {% if evento.imagem %}
+                        <img src="{{ evento.imagem.url }}" class="w-full h-full object-cover" alt="{{ evento.nome }}">
                     {% endif %}
-                </span>
-                <a href="{% url 'detalhe_evento' evento.id %}" class="bg-[#0071E3] text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-[#0077ED] transition-colors">
-                    Detalhes
-                </a>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-8 md:p-16">
+                        <div class="max-w-3xl">
+                            <span class="text-white/70 text-[10px] font-bold uppercase tracking-[0.2em] mb-2 block">{{ evento.categoria.nome }}</span>
+                            <h2 class="text-white text-3xl md:text-5xl font-bold tracking-tight mb-6">{{ evento.nome }}</h2>
+                            <a href="{% url 'detalhe_evento' evento.id %}" class="bg-white text-black px-8 py-3 rounded-full text-sm font-bold hover:scale-105 transition-transform inline-block">
+                                Reservar agora
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+
+  <!-- 2. CATEGORIAS -->
+<section class="py-8 px-4">
+    <div class="max-w-6xl mx-auto"> 
+        <div class="flex items-center justify-between mb-8">
+            <h3 class="text-2xl font-bold tracking-tight text-gray-900">Explore nossas coleções</h3>
+        </div>
+
+        <!-- CONTAINER RELATIVO: Define o limite onde as setas moram -->
+        <div class="relative px-12 md:px-14"> 
+            
+            <!-- SWIPER: Agora com overflow-hidden para prender as boxes entre as setas -->
+            <div class="swiper categoriaSwiper !py-4" style="overflow: hidden;"> 
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide h-auto">
+                        {% include "app/includes/_category_item.html" with label="Festas e Shows" icon="music" color="purple" %}
+                    </div>
+                    <div class="swiper-slide h-auto">
+                        {% include "app/includes/_category_item.html" with label="Teatros" icon="mask" color="red" %}
+                    </div>
+                    <div class="swiper-slide h-auto">
+                        {% include "app/includes/_category_item.html" with label="Dia das Mães" icon="heart" color="pink" %}
+                    </div>
+                    <div class="swiper-slide h-auto">
+                        {% include "app/includes/_category_item.html" with label="Shows Online" icon="video" color="slate" %}
+                    </div>
+                    <div class="swiper-slide h-auto">
+                        {% include "app/includes/_category_item.html" with label="Stand Up" icon="mic" color="orange" %}
+                    </div>
+                    <div class="swiper-slide h-auto">
+                        {% include "app/includes/_category_item.html" with label="Esportes" icon="trophy" color="green" %}
+                    </div>
+                    <div class="swiper-slide h-auto">
+                        {% include "app/includes/_category_item.html" with label="Passeios" icon="map" color="blue" %}
+                    </div>
+                    <div class="swiper-slide h-auto">
+                        {% include "app/includes/_category_item.html" with label="Descontos" icon="ticket" color="yellow" %}
+                    </div>
+                    <div class="swiper-slide h-auto">
+                        {% include "app/includes/_category_item.html" with label="Congressos" icon="users" color="indigo" %}
+                    </div>
+                    <div class="swiper-slide h-auto">
+                        {% include "app/includes/_category_item.html" with label="Infantil" icon="rocket" color="cyan" %}
+                    </div>
+                    <div class="swiper-slide h-auto">
+                        {% include "app/includes/_category_item.html" with label="Gastronomia" icon="cake" color="amber" %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- SETAS: Posicionadas nos paddings laterais (px-12) -->
+            <div class="swiper-button-prev !flex w-11 h-11 bg-white shadow-xl rounded-full text-black !left-0 top-1/2 -translate-y-1/2 border border-gray-100 z-50 cursor-pointer items-center justify-center transition-all hover:bg-gray-50 active:scale-90">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+            </div>
+
+            <div class="swiper-button-next !flex w-11 h-11 bg-white shadow-xl rounded-full text-black !right-0 top-1/2 -translate-y-1/2 border border-gray-100 z-50 cursor-pointer items-center justify-center transition-all hover:bg-gray-50 active:scale-90">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
             </div>
         </div>
     </div>
-    {% empty %}
-    <div class="col-span-full py-20 text-center">
-        <p class="text-gray-500">Nenhum evento encontrado no momento.</p>
-    </div>
-    {% endfor %}
+</section>
+{% endif %}
+
+  <!-- 3. GRADE DE EVENTOS -->
+    <section class="px-4">
+        <header class="mb-10">
+            <h1 class="text-3xl font-bold tracking-tight text-[#1D1D1F]">
+                {% if query %} Resultados para "{{ query }}" {% else %} Explorar eventos {% endif %}
+            </h1>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for evento in eventos %}
+            <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100">
+                <a href="{% url 'detalhe_evento' evento.id %}">
+                    <div class="aspect-video w-full overflow-hidden bg-gray-200 relative">
+                        {% if evento.imagem %}
+                            <img src="{{ evento.imagem.url }}" alt="{{ evento.nome }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        {% endif %}
+                        <span class="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-black">
+                            {{ evento.categoria.nome }}
+                        </span>
+                    </div>
+                </a>
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-[#1D1D1F] leading-tight mb-2">{{ evento.nome }}</h2>
+                    <p class="text-sm text-[#86868B] line-clamp-2 mb-4 h-10">{{ evento.descricao }}</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-50">
+                        <span class="text-lg font-bold">
+                            {% if evento.tipo == 'GRATUITO' %} Grátis {% else %} R$ {{ evento.valor_ingresso }} {% endif %}
+                        </span>
+                        <a href="{% url 'detalhe_evento' evento.id %}" class="bg-black text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-gray-800 transition-all">
+                            Ver detalhes
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-full py-20 text-center bg-white rounded-3xl border border-dashed border-gray-200">
+                <p class="text-gray-400 font-medium">Nenhum evento encontrado.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- 4. Q&A SECTION (FAQ Completo) -->
+    <section class="max-w-3xl mx-auto pt-16 pb-20 border-t border-gray-100 px-4">
+        <h3 class="text-2xl font-bold tracking-tight text-center mb-10 text-[#1D1D1F]">Tire suas dúvidas aqui</h3>
+        <div class="space-y-4">
+            
+            <div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
+                <details class="group">
+                    <summary class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
+                        <span>Como trocar a titularidade do ingresso?</span>
+                        <span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </span>
+                    </summary>
+                    <div class="text-sm text-[#86868B] mt-4 leading-relaxed">
+                        <p>Você pode trocar a titularidade direto pelo site acessando sua conta. Vá em "Meus Ingressos", selecione o evento e clique em "Trocar Titularidade".</p>
+                        <p class="mt-2 bg-amber-50 text-amber-700 p-3 rounded-xl border border-amber-100 italic text-xs">Atenção: A troca é permitida apenas uma vez por ingresso até 24h antes do evento.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
+                <details class="group">
+                    <summary class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
+                        <span>Quais as formas de pagamento aceitas?</span>
+                        <span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </span>
+                    </summary>
+                    <div class="text-sm text-[#86868B] mt-4 leading-relaxed">
+                        <p>Aceitamos Pix, Cartão de Crédito (com parcelamento em até 12x) e boleto bancário (disponível até 5 dias antes do evento).</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
+                <details class="group">
+                    <summary class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
+                        <span>Como recebo meu ingresso?</span>
+                        <span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </span>
+                    </summary>
+                    <div class="text-sm text-[#86868B] mt-4 leading-relaxed">
+                        <p>Logo após a confirmação do pagamento, o ingresso é enviado para o seu e-mail e fica disponível na aba "Meus Ingressos" aqui no site.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
+                <details class="group">
+                    <summary class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
+                        <span>Como solicitar cancelamento e reembolso?</span>
+                        <span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </span>
+                    </summary>
+                    <div class="text-sm text-[#86868B] mt-4 leading-relaxed">
+                        <p>O cancelamento pode ser solicitado em até 7 dias após a compra, desde que falte mais de 48h para o início do evento.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
 </div>
+
+
+<style>
+    /* Remove as setas padrão do Swiper (essenciais para o seu SVG aparecer) */
+    .swiper-button-next::after, .swiper-button-prev::after {
+        display: none !important;
+    }
+
+    /* Garante que o swiper oculte o que sai da área central */
+    .categoriaSwiper {
+        overflow: hidden !important;
+    }
+
+    /* Melhora a visibilidade do footer garantindo que não haja divs abertas */
+    footer {
+        position: relative;
+        z-index: 10;
+    }
+</style>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    new Swiper('.categoriaSwiper', {
+        slidesPerView: 2.2, // Mobile mostra pedaço do terceiro slide
+        spaceBetween: 16,
+        loop: true,         // Interação infinita para ambos os lados
+        grabCursor: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            640: { 
+                slidesPerView: 3.5, 
+                spaceBetween: 20 
+            },
+            1024: { 
+                slidesPerView: 6, // Desktop mostra exatamente 6 entre as setas
+                spaceBetween: 24 
+            }
+        }
+    });
+});
+</script>
+
 {% endblock %}
