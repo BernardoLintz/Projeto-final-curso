@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-# Projeto_final/urls.py
-from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('app.urls')), # Isso puxa tudo que está no app/urls.py
-    path("__reload__/", include("django_browser_reload.urls")),
-]
-
-if settings.DEBUG:
-=======
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -34,5 +19,4 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
->>>>>>> 6afa30f854d8f90322e9240233b553943522aacd
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

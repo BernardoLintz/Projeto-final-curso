@@ -24,13 +24,7 @@ urlpatterns = [
     path('carrinho/adicionar/<int:evento_id>/', views.adicionar_ao_carrinho, name='adicionar_ao_carrinho'),
     path('carrinho/', views.ver_carrinho, name='ver_carrinho'),
     path('carrinho/checkout/', views.checkout_carrinho, name='checkout_carrinho'),
-<<<<<<< HEAD
     path('sucesso_carrinho/', views.sucesso_carrinho, name='sucesso_carrinho'),
-=======
-    path('dashboard-bi/', views.dashboard_bi, name='dashboard_bi'),
-    path('verificar-assinatura/', views.verificar_assinatura, name='verificar_assinatura'),
-    path('pagina-assinatura/', views.pagina_assinatura, name='pagina_assinatura'),]
->>>>>>> 6afa30f854d8f90322e9240233b553943522aacd
 
     # BI / Dashboard
     path('dashboard-bi/', views.dashboard_bi, name='dashboard_bi'),
