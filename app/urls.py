@@ -28,4 +28,7 @@ urlpatterns = [
 
     # BI / Dashboard
     path('dashboard-bi/', views.dashboard_bi, name='dashboard_bi'),
+
+    path('verificar-assinatura/', views.verificar_assinatura, name='verificar_assinatura'),
+    path('pagina-assinatura/', views.pagina_assinatura, name='pagina_assinatura'),
 ]

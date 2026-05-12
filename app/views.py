@@ -296,3 +296,19 @@ def cadastro(request):
         form = UserCreationForm()
     return render(request, 'app/cadastro.html', {'form': form})
 
+@login_required
+def verificar_assinatura(request):
+    # Procura o perfil do utilizador logado
+    perfil = request.user.perfil
+    
+    if perfil.is_colaborador:
+        # Se for assinante, vai para a página de criação
+        return redirect('publicar_evento')
+    else:
+        # Se não for, envia mensagem e vai para a venda
+        messages.info(request, "Torna-te um colaborador para publicares os teus próprios eventos!")
+        return redirect('pagina_assinatura')
+
+def pagina_assinatura(request):
+    # Aqui vamos renderizar a página de vendas (estilo Sympla)
+    return render(request, 'app/pagina_assinatura.html')
