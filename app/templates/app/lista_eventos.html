@@ -8,10 +8,12 @@
     <p class="text-lg text-[#86868B] mt-2">Descubra e reserve experiências únicas.</p>
 </header>
 
+<!-- Grade de Eventos -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     {% for evento in eventos %}
     <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100">
         
+        <!-- Imagem do Evento -->
         <div class="aspect-video w-full overflow-hidden bg-gray-200 relative">
             {% if evento.imagem %}
                 <img src="{{ evento.imagem.url }}" alt="{{ evento.nome }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -19,11 +21,13 @@
                 <div class="flex items-center justify-center h-full text-gray-400 italic text-xs">Sem imagem</div>
             {% endif %}
             
+            <!-- Badge de Categoria -->
             <span class="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-black">
                 {{ evento.categoria.nome }}
             </span>
         </div>
 
+        <!-- Detalhes -->
         <div class="p-6">
             <div class="flex justify-between items-start mb-2">
                 <h2 class="text-xl font-semibold text-[#1D1D1F] leading-tight">{{ evento.nome }}</h2>
