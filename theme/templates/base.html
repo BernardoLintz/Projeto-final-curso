@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}evento.app{% endblock %}</title>
+    <title>{% block title %}Plutão Eventos{% endblock %}</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,10 +44,13 @@
 <body class="bg-[#F5F5F7] text-[#1D1D1F] antialiased flex flex-col min-h-screen">
 
     <nav class="glass sticky top-0 z-[100] w-full">
-        <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between gap-8">
-            <a href="{% url 'lista_eventos' %}" class="text-lg font-semibold tracking-tight hover:opacity-70 transition-opacity">
-                evento.app
-            </a>
+        <!-- Aumentamos de h-14 (56px) para h-20 (80px) -->
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between gap-8">
+            
+            <div class="flex items-center gap-4">
+         <img src="/media/Logowe.webp" class="h-16 w-auto object-contain transition-transform hover:scale-105" alt="Logo Plutao Eventos">
+                <a href="{% url 'lista_eventos' %}" class="text-xl font-bold tracking-tight hover:opacity-70 transition-opacity">Plutão Eventos</a>
+            </div>
 
             <div class="flex-1 max-w-md">
                 <form action="{% url 'lista_eventos' %}" method="GET" class="relative">
@@ -61,41 +64,52 @@
             </div>
             
             <div class="flex items-center space-x-6 text-[13px] font-medium text-[#515154]">
-                <a href="{% url 'criar_evento' %}" class="hover:text-black transition-colors">Criar evento</a>
                 
                 {% if user.is_authenticated %}
-                    <a href="{% url 'meus_ingressos' %}" class="hover:text-black transition-colors">Ingressos</a>
-                    <div class="relative group">
-                        <button class="flex items-center gap-1 text-black font-semibold">
-                            Olá, {{ user.first_name|default:user.username }}
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
-                        </button>
-                        <div class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-2xl py-2 hidden group-hover:block border border-gray-100">
-                            <a href="{% url 'meus_eventos' %}" class="block px-4 py-2 hover:bg-gray-50">Meus eventos</a>
-                            <form action="{% url 'logout' %}" method="post">
+                <div class="relative group">
+                    <!-- Aumentamos levemente o padding do botão para reduzir o gap -->
+                    <button class="flex items-center gap-1 text-black font-semibold py-2">
+                        Olá, {{ user.first_name|default:user.username }}
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+
+                    <!-- O segredo: div extra com 'pt-3' para criar a ponte invisível -->
+                    <div class="absolute right-0 pt-3 w-48 hidden group-hover:block z-50">
+                        <div class="bg-white rounded-xl shadow-2xl py-2 border border-gray-100 overflow-hidden">
+                            <a href="{% url 'criar_evento' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Criar evento</a>
+                            <a href="{% url 'meus_ingressos' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Meus ingressos</a>
+                            <a href="{% url 'meus_eventos' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Meus eventos</a>
+                            
+                            <hr class="my-1 border-gray-100">
+
+                            <form action="{% url 'logout' %}" method="post" class="m-0">
                                 {% csrf_token %}
-                                <button type="submit" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-50">Sair</button>
+                                <button type="submit" class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-50 transition-colors">
+                                    Sair
+                                </button>
                             </form>
                         </div>
                     </div>
-                {% else %}
-                    <a href="{% url 'login' %}" class="hover:text-black transition-colors">Entrar</a>
-                    <a href="{% url 'cadastro' %}" class="bg-black text-white px-4 py-1.5 rounded-full hover:bg-gray-800 transition-all">Começar</a>
-                {% endif %}
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}" class="hover:text-black transition-colors">Entrar</a>
+                <a href="{% url 'cadastro' %}" class="bg-black text-white px-4 py-1.5 rounded-full hover:bg-gray-800 transition-all">Criar Conta</a>
+            {% endif %}
 
-                <a href="{% url 'ver_carrinho' %}" class="relative p-1">
-                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-                    </svg>
-                    {% if request.session.carrinho %}
-                    <span class="absolute -top-1 -right-1 bg-[#0071E3] text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
-                        {{ request.session.carrinho|length }}
-                    </span>
-                    {% endif %}
-                </a>
-            </div>
+            <!-- CARRINHO -->
+            <a href="{% url 'ver_carrinho' %}" class="relative p-1">
+                <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                </svg>
+                {% if request.session.carrinho %}
+                <span class="absolute -top-1 -right-1 bg-[#0071E3] text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
+                    {{ request.session.carrinho|length }}
+                </span>
+                {% endif %}
+            </a>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <main class="flex-grow">
         {% block content %}{% endblock %}

@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="max-w-sm mx-auto mt-12">
-    <div class="bg-white p-10 rounded-[32px] shadow-2xl border border-gray-100 text-center">
-        <h2 class="text-3xl font-bold tracking-tight mb-2">Criar ID Eventos</h2>
+<div class="min-h-[calc(100vh-80px)] flex flex-col justify-center py-12 px-4">
+    <div class="max-w-sm mx-auto w-full">
+        <div class="bg-white p-10 rounded-[32px] shadow-2xl border border-gray-100 text-center">
+        <h2 class="text-3xl font-bold tracking-tight mb-2">Criar conta</h2>
         <p class="text-[#86868B] text-sm mb-8">Uma conta para todos os seus eventos.</p>
 
         <form method="POST" class="space-y-4">
@@ -32,7 +33,7 @@
 
         <div class="mt-8 pt-6 border-t border-gray-100">
             <p class="text-sm text-[#86868B]">
-                Já tem um ID? <a href="{% url 'login' %}" class="text-[#0071E3] hover:underline">Iniciar sessão.</a>
+                Já tem uma conta? <a href="{% url 'login' %}" class="text-[#0071E3] hover:underline">Iniciar sessão.</a>
             </p>
         </div>
     </div>
