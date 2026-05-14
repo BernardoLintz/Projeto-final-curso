@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="max-w-sm mx-auto mt-20">
-    <div class="bg-white p-10 rounded-[32px] shadow-2xl border border-gray-100 text-center">
+<div class="min-h-[calc(100vh-80px)] flex flex-col justify-center py-12 px-4">
+    <div class="max-w-sm mx-auto w-full">
+        <div class="bg-white p-10 rounded-[32px] shadow-2xl border border-gray-100 text-center">
         <h2 class="text-3xl font-bold tracking-tight mb-2">Iniciar sessão</h2>
-        <p class="text-[#86868B] text-sm mb-8">Use sua conta do Eventos.app</p>
+        <p class="text-[#86868B] text-sm mb-8">Use sua conta do Plutão Eventos</p>
 
         <form method="POST" class="space-y-4">
             {% csrf_token %}

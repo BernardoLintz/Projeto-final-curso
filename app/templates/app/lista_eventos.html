@@ -36,8 +36,11 @@
                     </div>
                     {% endfor %}
                 </div>
-                <div class="swiper-pagination !bottom-6"></div>
+                
             </div>
+
+            <!-- PAGINAÇÃO MOVIDA PARA FORA DO SWIPER -->
+        <div class="hero-pagination flex justify-center mt-6"></div>
 
             <!-- SETAS HERO -->
             <div class="swiper-button-prev hero-prev !-left-16 !text-black/30 hover:!text-black transition-colors hidden md:flex">
@@ -173,209 +176,102 @@
         </div>
     </section>
     <!-- 5. Q&A SECTION -->
-
     <section class="max-w-3xl mx-auto pt-16 pb-20 border-t border-gray-100 px-4">
-
         <h3 class="text-2xl font-bold tracking-tight text-center mb-10 text-[#1D1D1F]">Tire suas dúvidas aqui</h3>
-
-
-
-        <div class="space-y-4">
-
-
-
-            <!-- Pergunta 1: Cancelamento -->
-
-            <div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
-
-                <details class="group">
-
-                    <summary
-                        class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
-
-                        <span>Como eu cancelo ou peço reembolso dos ingressos?</span>
-
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
-
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-
-                        </span>
-
-                    </summary>
-
-                    <div class="text-sm text-[#86868B] mt-4 leading-relaxed space-y-2">
-
-                        <p>O reembolso depende do método de pagamento usado na compra e segue regras específicas. A
-                            <strong>Evento.app não faz reembolso parcial</strong>: se pedir reembolso, todos os
-                            ingressos do pedido são cancelados.</p>
-
-                        <p class="text-[#6F32D2] font-medium">Confira como funciona na nossa Central de Ajuda.</p>
-
-                    </div>
-
-                </details>
-
-            </div>
-
-
-            <!-- Pergunta 2: Localizar Ingressos -->
-
-            <div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
-
-                <details class="group">
-
-                    <summary
-                        class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
-
-                        <span>Como localizar meus ingressos?</span>
-
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
-
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-
-                        </span>
-
-                    </summary>
-
-                    <div class="text-sm text-[#86868B] mt-4 leading-relaxed">
-
-                        <p>Seus ingressos são enviados por e-mail e também ficam disponíveis na plataforma. Você pode
-                            acessá-los pelo app ou pelo site, mesmo que ainda não tenha criado uma conta.</p>
-
-                    </div>
-
-                </details>
-
-            </div>
-
-
-            <!-- Pergunta 3: Titularidade -->
-
-            <div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
-
-                <details class="group">
-
-                    <summary
-                        class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
-
-                        <span>Como trocar a titularidade dos ingressos?</span>
-
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
-
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-
-                        </span>
-
-                    </summary>
-
-                    <div class="text-sm text-[#86868B] mt-4 leading-relaxed space-y-2">
-
-                        <p>Em muitos eventos, você pode trocar a titularidade direto pelo site, de forma simples e
-                            rápida. É só ter uma conta com o mesmo e-mail da compra.</p>
-
-                        <p class="bg-amber-50 text-amber-700 p-3 rounded-xl border border-amber-100 italic text-xs">
-
-                            Importante: a troca é válida até 24h antes do evento (ou conforme regras do organizador) e
-                            só pode ser feita uma vez.
-
-                        </p>
-
-                    </div>
-
-                </details>
-
-            </div>
-
-
-            <!-- Pergunta 4: Certificado -->
-
-            <div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
-
-                <details class="group">
-
-                    <summary
-                        class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
-
-                        <span>Como acesso meu certificado?</span>
-
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
-
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-
-                        </span>
-
-                    </summary>
-
-                    <div class="text-sm text-[#86868B] mt-4 leading-relaxed space-y-2">
-
-                        <p>Em alguns casos, ele é liberado apenas após o check-in ou em uma data definida pela
-                            organização. Se você já seguiu as orientações e não conseguiu acessar, vale confirmar com o
-                            produtor do evento.</p>
-
-                        <p>A emissão e o envio são responsabilidade da organização, mas você pode acompanhar tudo pela
-                            sua conta.</p>
-
-                    </div>
-
-                </details>
-
-            </div>
-
-
-            <!-- Pergunta 5: Acesso à conta -->
-
-            <div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
-
-                <details class="group">
-
-                    <summary
-                        class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
-
-                        <span>Não consigo acessar minha conta, o que fazer?</span>
-
-                        <span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
-
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-
-                        </span>
-
-                    </summary>
-
-                    <div class="text-sm text-[#86868B] mt-4 leading-relaxed space-y-3">
-
-                        <p>Se você comprou um ingresso, mas não criou uma conta, não se preocupe: a conta não é criada
-                            automaticamente no momento da compra.</p>
-
-                        <p>Para acessar, use o <strong>mesmo e-mail da compra</strong> e crie uma conta agora. Se já
-                            tiver uma conta e não lembra a senha, é só redefinir.</p>
-
-                        <p class="text-green-600 font-medium">Seus ingressos continuam salvos e serão recuperados assim
-                            que você entrar com o e-mail certo.</p>
-
-                    </div>
-
-                </details>
-
-            </div>
-
-        </div>
-
-    </section>
+            <div class="space-y-4">
+<!-- Pergunta 1: Cancelamento -->
+<div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
+<details class="group">
+<summary
+  class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
+<span>Como eu cancelo ou peço reembolso dos ingressos?</span>
+<span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+     </svg>
+</span>
+</summary>
+<div class="text-sm text-[#86868B] mt-4 leading-relaxed space-y-2">
+<p>O reembolso depende do método de pagamento usado na compra e segue regras específicas. A
+ <strong>Evento.app não faz reembolso parcial</strong>: se pedir reembolso, todos os ingressos do pedido são cancelados.</p>
+<p class="text-[#6F32D2] font-medium">Confira como funciona na nossa Central de Ajuda.</p>
+</div>
+</details>
+</div>
+<!-- Pergunta 2: Localizar Ingressos -->
+<div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
+<details class="group">
+<summary
+class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
+<span>Como localizar meus ingressos?</span>
+<span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+</svg>
+</span>
+</summary>
+<div class="text-sm text-[#86868B] mt-4 leading-relaxed">
+<p>Seus ingressos são enviados por e-mail e também ficam disponíveis na plataforma. Você pode acessá-los pelo app ou pelo site, mesmo que ainda não tenha criado uma conta.</p>
+</div>
+</details>
+</div>
+<!-- Pergunta 3: Titularidade -->
+<div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
+<details class="group">
+<summary
+class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
+<span>Como trocar a titularidade dos ingressos?</span>
+<span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+</svg>
+</span>
+</summary>
+<div class="text-sm text-[#86868B] mt-4 leading-relaxed space-y-2">
+<p>Em muitos eventos, você pode trocar a titularidade direto pelo site, de forma simples e rápida. É só ter uma conta com o mesmo e-mail da compra.</p>
+<p class="bg-amber-50 text-amber-700 p-3 rounded-xl border border-amber-100 italic text-xs">
+Importante: a troca é válida até 24h antes do evento (ou conforme regras do organizador) e só pode ser feita uma vez.</p>
+</div>
+</details>
+</div>
+<!-- Pergunta 4: Certificado -->
+<div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
+<details class="group">
+<summary
+class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
+<span>Como acesso meu certificado?</span>
+<span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+</svg>
+</span>
+</summary>
+<div class="text-sm text-[#86868B] mt-4 leading-relaxed space-y-2">
+<p>Em alguns casos, ele é liberado apenas após o check-in ou em uma data definida pela organização. Se você já seguiu as orientações e não conseguiu acessar, vale confirmar com o produtor do evento.</p>
+<p>A emissão e o envio são responsabilidade da organização, mas você pode acompanhar tudo pela sua conta.</p>
+</div>
+</details>
+</div>
+<!-- Pergunta 5: Acesso à conta -->
+<div class="bg-white rounded-2xl border border-gray-100 p-6 transition-all hover:border-gray-200">
+<details class="group">
+<summary class="flex justify-between items-center font-semibold cursor-pointer list-none text-[#1D1D1F]">
+<span>Não consigo acessar minha conta, o que fazer?</span>
+<span class="transition-transform duration-300 group-open:rotate-180 text-gray-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+</svg>
+</span>
+</summary>
+<div class="text-sm text-[#86868B] mt-4 leading-relaxed space-y-3">
+<p>Se você comprou um ingresso, mas não criou uma conta, não se preocupe: a conta não é criada automaticamente no momento da compra.</p>
+<p>Para acessar, use o <strong>mesmo e-mail da compra</strong> e crie uma conta agora. Se já tiver uma conta e não lembra a senha, é só redefinir.</p>
+<p class="text-green-600 font-medium">Seus ingressos continuam salvos e serão recuperados assim que você entrar com o e-mail certo.</p>
+</div>
+</details>
+</div>
+</div>
+</section>
     <style>
         .swiper-button-next::after,
         .swiper-button-prev::after {
@@ -415,9 +311,9 @@ document.addEventListener('DOMContentLoaded', function () {
         fadeEffect: { crossFade: true },
         autoplay: { delay: 5000, disableOnInteraction: false },
         pagination: {
-            el: '.heroSwiper .swiper-pagination',
-            clickable: true,
-        },
+        el: '.hero-pagination', // Deve ser exatamente a classe que criamos fora da box
+        clickable: true,
+    },
         navigation: {
             nextEl: '.hero-next',
             prevEl: '.hero-prev',
