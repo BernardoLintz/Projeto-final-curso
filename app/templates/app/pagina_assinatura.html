@@ -21,7 +21,7 @@
                 <h3 class="text-xl font-bold text-gray-900">Mensal</h3>
                 <p class="text-sm text-gray-500 mt-2">Ideal para eventos pontuais</p>
                 <div class="mt-6">
-                    <span class="text-4xl font-extrabold text-gray-900">R$ 59</span>
+                    <span class="text-4xl font-extrabold text-gray-900">R$ 59,90</span>
                     <span class="text-gray-500">/mês</span>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                 </li>
             </ul>
 
-            <form action="#" method="POST" class="mt-auto">
+            <form action="{% url 'checkout_assinatura' %}" method="POST" class="mt-auto">
                 {% csrf_token %}
                 <input type="hidden" name="plano" value="mensal">
                 <button type="submit" class="w-full py-4 rounded-2xl font-bold border-2 border-gray-200 text-gray-700 transition-all hover:border-[#6F32D2] hover:text-[#6F32D2] hover:bg-purple-50 cursor-pointer">
@@ -56,10 +56,10 @@
                 <h3 class="text-xl font-bold text-gray-900">Anual</h3>
                 <p class="text-sm text-gray-500 mt-2">Para produtores profissionais</p>
                 <div class="mt-6">
-                    <span class="text-5xl font-extrabold text-gray-900">R$ 39</span>
+                    <span class="text-5xl font-extrabold text-gray-900">R$ 399</span>
                     <span class="text-gray-500">/mês</span>
                 </div>
-                <p class="text-xs text-[#6F32D2] font-bold mt-2 italic">Economize R$ 240 por ano</p>
+                <p class="text-xs text-[#6F32D2] font-bold mt-2 italic"></p>
             </div>
             
             <ul class="space-y-4 mb-10">
@@ -73,7 +73,7 @@
                 </li>
             </ul>
 
-            <form action="#" method="POST" class="mt-auto">
+            <form action="{% url 'checkout_assinatura' %}" method="POST" class="mt-auto">
                 {% csrf_token %}
                 <input type="hidden" name="plano" value="anual">
                 <button type="submit" class="w-full py-4 rounded-2xl font-bold bg-[#6F32D2] text-white transition-all hover:bg-[#5b28ad] hover:scale-[1.02] cursor-pointer shadow-lg shadow-purple-200">
@@ -88,7 +88,7 @@
                 <h3 class="text-xl font-bold text-gray-900">Trimestral</h3>
                 <p class="text-sm text-gray-500 mt-2">Perfeito para temporadas</p>
                 <div class="mt-6">
-                    <span class="text-4xl font-extrabold text-gray-900">R$ 49</span>
+                    <span class="text-4xl font-extrabold text-gray-900">R$ 79,90</span>
                     <span class="text-gray-500">/mês</span>
                 </div>
             </div>
@@ -104,7 +104,7 @@
                 </li>
             </ul>
 
-            <form action="#" method="POST" class="mt-auto">
+            <form action="{% url 'checkout_assinatura' %}" method="POST" class="mt-auto">
                 {% csrf_token %}
                 <input type="hidden" name="plano" value="trimestral">
                 <button type="submit" class="w-full py-4 rounded-2xl font-bold border-2 border-gray-200 text-gray-700 transition-all hover:border-[#6F32D2] hover:text-[#6F32D2] hover:bg-purple-50 cursor-pointer">

@@ -104,6 +104,17 @@ class Perfil(models.Model):
     telefone = models.CharField(max_length=20, blank=True)
     cpf = models.CharField(max_length=14, unique=True, blank=True, null=True)
 
+    is_colaborador = models.BooleanField(default=False)
+    cnpj = models.CharField(max_length=18, blank=True, null=True)
+    nome_empresa = models.CharField(max_length=100, blank=True, null=True)
+    estado = models.CharField(max_length=2, blank=True, null=True)
+    cidade = models.CharField(max_length=100, blank=True, null=True)
+    email_empresarial = models.EmailField(blank=True, null=True)
+    whatsapp = models.CharField(max_length=20, blank=True, null=True)
+    nome_representante = models.CharField(max_length=100, blank=True, null=True)
+
+
+
 class EventoData(models.Model):
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE, related_name='datas')
     data_inicio = models.DateTimeField()

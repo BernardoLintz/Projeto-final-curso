@@ -312,3 +312,33 @@ def verificar_assinatura(request):
 def pagina_assinatura(request):
     # Aqui vamos renderizar a página de vendas (estilo Sympla)
     return render(request, 'app/pagina_assinatura.html')
+
+
+@login_required
+def checkout_assinatura(request):
+    plano_selecionado = request.POST.get('plano') # Vem do seu template de planos
+    
+    if request.method == "POST" and 'finalizar' in request.POST:
+        # Aqui capturamos os dados do formulário de compra
+        perfil = request.user.perfil
+        perfil.nome_empresa = request.POST.get('nome_empresa')
+        perfil.cnpj = request.POST.get('cnpj')
+        perfil.estado = request.POST.get('estado')
+        perfil.cidade = request.POST.get('cidade')
+        perfil.email_empresarial = request.POST.get('email_empresarial')
+        perfil.whatsapp = request.POST.get('whatsapp')
+        perfil.nome_representante = request.POST.get('nome_representante')
+        perfil.cpf = request.POST.get('cpf_representante')
+        
+        # Simulação de sucesso no pagamento
+        perfil.is_colaborador = True 
+        perfil.save()
+        
+        messages.success(request, "Assinatura confirmada! Agora você é um colaborador.")
+        return redirect('criar_evento')
+
+    return render(request, 'app/checkout_assinatura.html', {'plano': plano_selecionado})
+
+def minha_assinatura_view(request):
+    # Aqui você retornará o template da assinatura
+    return render(request, 'assinatura.html')

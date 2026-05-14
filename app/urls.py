@@ -16,7 +16,7 @@ urlpatterns = [
     path('meus-eventos/', views.meus_eventos, name='meus_eventos'),
     path('evento/<int:evento_id>/', views.detalhe_evento, name='detalhe_evento'),
     path('meus-ingressos/', views.meus_ingressos, name='meus_ingressos'),
-    
+    path('assinatura/', views.minha_assinatura_view, name='minha_assinatura'),
     # Pagamento e Carrinho
     path('evento/<int:evento_id>/inscrever/', views.realizar_inscricao, name='realizar_inscricao'),
     path('sucesso_pagamento/<int:evento_id>/', views.sucesso_pagamento, name='sucesso_pagamento'),
@@ -25,7 +25,7 @@ urlpatterns = [
     path('carrinho/', views.ver_carrinho, name='ver_carrinho'),
     path('carrinho/checkout/', views.checkout_carrinho, name='checkout_carrinho'),
     path('sucesso_carrinho/', views.sucesso_carrinho, name='sucesso_carrinho'),
-
+    path('checkout-assinatura/', views.checkout_assinatura, name='checkout_assinatura'),
     # BI / Dashboard
     path('dashboard-bi/', views.dashboard_bi, name='dashboard_bi'),
 

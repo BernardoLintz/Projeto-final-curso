@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-4xl mx-auto py-12 px-6">
+    <h1 class="text-3xl font-bold mb-8">Finalizar Assinatura: <span class="text-purple-600 uppercase">{{ plano }}</span></h1>
+
+    <form method="POST" class="space-y-8 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+        {% csrf_token %}
+        <input type="hidden" name="plano" value="{{ plano }}">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <h3 class="col-span-full text-xl font-semibold border-b pb-2 text-gray-800">Informações da Empresa</h3>
+            
+            <div class="md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Razão Social / Nome da Empresa</label>
+                <input type="text" name="nome_empresa" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
+            </div>
+
+            <div class="md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">CNPJ</label>
+                <input type="text" id="id_cnpj" name="cnpj" placeholder="00.000.000/0000-00" required 
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
+            </div>
+
+            <div class="md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Cidade</label>
+                <input type="text" name="cidade" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
+            </div>
+
+            <div class="md:col-span-1">
+                <label class="block text-sm font-medium text-gray-700">Estado</label>
+                <select name="estado" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border bg-white">
+                    <option value="">Selecione...</option>
+                    <option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option>
+                    <option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option>
+                    <option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option>
+                    <option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option>
+                    <option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option>
+                    <option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option>
+                    <option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option>
+                    <option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option>
+                    <option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <h3 class="col-span-full text-xl font-semibold border-b pb-2 text-gray-800">Contato e Representante</h3>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700">E-mail Empresarial</label>
+                <input type="email" name="email_empresarial" placeholder="exemplo@empresa.com" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">WhatsApp da Empresa</label>
+                <input type="text" id="id_whatsapp" name="whatsapp" placeholder="(00) 00000-0000" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Nome do Representante</label>
+                <input type="text" name="nome_representante" placeholder="Nome Completo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">CPF do Representante</label>
+                <input type="text" id="id_cpf" name="cpf_representante" placeholder="000.000.000-00" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold border-b pb-2 text-gray-800">Forma de Pagamento</h3>
+            <div class="flex flex-wrap gap-4">
+                <label class="flex items-center p-4 border rounded-xl cursor-pointer hover:bg-purple-50 hover:border-purple-200 transition">
+                    <input type="radio" name="metodo" value="cartao" class="text-purple-600 focus:ring-purple-500" checked>
+                    <span class="ml-2 font-medium">💳 Cartão de Crédito/Débito</span>
+                </label>
+                <label class="flex items-center p-4 border rounded-xl cursor-pointer hover:bg-purple-50 hover:border-purple-200 transition">
+                    <input type="radio" name="metodo" value="boleto" class="text-purple-600 focus:ring-purple-500">
+                    <span class="ml-2 font-medium">📄 Boleto</span>
+                </label>
+                <label class="flex items-center p-4 border rounded-xl cursor-pointer hover:bg-purple-50 hover:border-purple-200 transition">
+                    <input type="radio" name="metodo" value="qrcode" class="text-purple-600 focus:ring-purple-500">
+                    <span class="ml-2 font-medium">📱 QR Code / PIX</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-inner">
+            <h3 class="font-bold mb-2 text-gray-800">Termos da Assinatura</h3>
+            <div class="h-32 overflow-y-auto text-xs text-gray-600 mb-4 bg-white p-3 border rounded">
+                <p class="mb-2"><strong>1. Objeto:</strong> Esta assinatura concede ao usuário o status de Colaborador na plataforma...</p>
+                <p class="mb-2"><strong>2. Cobrança:</strong> O valor do plano {{ plano }} será debitado de acordo com a periodicidade escolhida...</p>
+                <p><strong>3. Responsabilidade:</strong> O colaborador é inteiramente responsável pela veracidade das informações dos eventos publicados...</p>
+            </div>
+            <label class="inline-flex items-center text-sm font-semibold cursor-pointer">
+                <input type="checkbox" required class="w-4 h-4 rounded text-purple-600 focus:ring-purple-500 border-gray-300">
+                <span class="ml-2 text-gray-700">Li e concordo com todos os termos acima.</span>
+            </label>
+        </div>
+
+        <button type="submit" name="finalizar" class="w-full py-4 bg-purple-600 text-white rounded-xl font-bold text-lg hover:bg-purple-700 transition transform hover:scale-[1.01] shadow-lg shadow-purple-200">
+            Finalizar Compra
+        </button>
+    </form>
+</div>
+
+<script src="https://unpkg.com/imask"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Máscara para CNPJ
+        IMask(document.getElementById('id_cnpj'), {
+            mask: '00.000.000/0000-00'
+        });
+
+        // Máscara para CPF
+        IMask(document.getElementById('id_cpf'), {
+            mask: '000.000.000-00'
+        });
+
+        // Máscara para WhatsApp Dinâmica
+        IMask(document.getElementById('id_whatsapp'), {
+            mask: [
+                { mask: '(00) 0000-0000' },
+                { mask: '(00) 00000-0000' }
+            ]
+        });
+    });
+</script>
+{% endblock %}
