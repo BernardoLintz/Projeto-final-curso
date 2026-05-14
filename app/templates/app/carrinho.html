@@ -2,7 +2,7 @@
 {% load l10n %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto py-12">
+<div class="max-w-4xl mx-auto py-12 px-4">
     <h1 class="text-3xl font-bold mb-8">Seu Carrinho</h1>
 
     <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
@@ -13,25 +13,45 @@
                     <img src="{{ item.imagem }}" class="w-16 h-16 rounded-xl object-cover">
                 {% endif %}
                 <div>
-                    <h3 class="font-semibold">{{ item.nome }}</h3>
-                    <p class="text-sm text-gray-500">1 Ingresso</p>
+                    <!-- Ajustado para bater com as chaves do seu views.py -->
+                    <h3 class="font-semibold text-gray-900">{{ item.evento_nome }}</h3>
+                    <p class="text-sm text-gray-500">{{ item.lote_nome }}</p>
                 </div>
             </div>
-            <!-- Preço individual formatado -->
-            <p class="font-bold text-lg">R$ {{ item.preco|floatformat:2 }}</p>
+            
+            <div class="flex items-center space-x-6">
+                <!-- Preço individual -->
+                <p class="font-bold text-lg text-gray-900">R$ {{ item.preco|floatformat:2 }}</p>
+                
+                <!-- BOTÃO DE DELETAR -->
+                <a href="{% url 'remover_do_carrinho' id %}" 
+                   class="text-red-500 hover:text-red-700 p-2 transition-colors"
+                   title="Remover ingresso">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </a>
+            </div>
         </div>
         {% empty %}
-        <div class="p-20 text-center text-gray-500">Seu carrinho está vazio.</div>
+        <div class="p-20 text-center">
+            <div class="mb-4 flex justify-center text-gray-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+            </div>
+            <p class="text-gray-500 text-xl">Seu carrinho está vazio.</p>
+            <a href="{% url 'lista_eventos' %}" class="text-blue-500 hover:underline mt-4 inline-block">Voltar para eventos</a>
+        </div>
         {% endfor %}
 
         {% if carrinho %}
         <div class="p-8 bg-gray-50 flex items-center justify-between">
             <div>
                 <p class="text-sm text-gray-500 uppercase tracking-widest">Total</p>
-                <!-- Total formatado aqui dentro -->
-                <p class="text-3xl font-bold">R$ {{ total|floatformat:2 }}</p>
+                <p class="text-3xl font-bold text-gray-900">R$ {{ total|floatformat:2 }}</p>
             </div>
-            <a href="{% url 'checkout_carrinho' %}" class="bg-[#0071E3] text-white px-10 py-4 rounded-2xl font-bold hover:bg-blue-600 transition-all">
+            <a href="{% url 'checkout_carrinho' %}" class="bg-[#0071E3] text-white px-10 py-4 rounded-2xl font-bold hover:bg-blue-600 transition-all transform hover:scale-105 active:scale-95">
                 Finalizar Compra
             </a>
         </div>

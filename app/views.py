@@ -222,7 +222,7 @@ def checkout_carrinho(request):
         line_items.append({
             'price_data': {
                 'currency': 'brl',
-                'unit_amount': int(item['preco'] * 100),
+                'unit_amount': int(round(float(item['preco']) * 100)),
                 'product_data': {'name': f"{item['evento_nome']} - {item['lote_nome']}"},
             },
             'quantity': 1,
@@ -312,3 +312,15 @@ def verificar_assinatura(request):
 def pagina_assinatura(request):
     # Aqui vamos renderizar a página de vendas (estilo Sympla)
     return render(request, 'app/pagina_assinatura.html')
+
+@login_required
+def remover_do_carrinho(request, lote_id):
+    carrinho = request.session.get('carrinho', {})
+    lote_id_str = str(lote_id)
+    
+    if lote_id_str in carrinho:
+        del carrinho[lote_id_str]
+        request.session['carrinho'] = carrinho
+        messages.success(request, "Item removido do carrinho.")
+    
+    return redirect('ver_carrinho')
