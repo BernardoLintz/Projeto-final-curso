@@ -93,9 +93,15 @@
                     <h2 class="text-xl font-semibold text-[#1D1D1F] leading-tight mb-2">{{ evento.nome }}</h2>
                     <p class="text-sm text-[#86868B] line-clamp-2 mb-4 h-10">{{ evento.descricao }}</p>
                     <div class="flex items-center justify-between pt-4 border-t border-gray-50">
-                        <span class="text-lg font-bold">
-                            {% if evento.tipo == 'GRATUITO' %} Grátis {% else %} R$ {{ evento.valor_ingresso }} {% endif %}
-                        </span>
+                       <span class="text-lg font-bold">
+                        {% if evento.tipo == 'GRATUITO' %} 
+                            Grátis 
+                        {% elif evento.menor_preco %} 
+                            R$ {{ evento.menor_preco|floatformat:2 }}
+                        {% else %}
+                            Consulte
+                        {% endif %}
+                    </span>
                         <a href="{% url 'detalhe_evento' evento.id %}" class="bg-black text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-gray-800 transition-all">
                             Ver detalhes
                         </a>

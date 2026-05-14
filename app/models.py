@@ -50,6 +50,14 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.nome
+    
+    @property
+    def menor_preco(self):
+        # Busca o menor preço entre os tickets ativos deste evento
+        ticket = self.tipos_ingressos.filter(ativo=True).order_by('preco').first()
+        if ticket:
+            return ticket.preco
+        return None
 
 class TicketType(models.Model):
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE, related_name='tipos_ingressos')
