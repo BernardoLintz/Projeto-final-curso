@@ -1,31 +1,26 @@
+<!--TUDO QUE FOI MODIFICDO VAI ENTRAR OK -->
 {% extends 'base.html' %}
 {% block content %}
 <div class="max-w-4xl mx-auto py-12 px-6">
     <h1 class="text-3xl font-bold mb-8">Finalizar Assinatura: <span class="text-purple-600 uppercase">{{ plano }}</span></h1>
-
     <form method="POST" class="space-y-8 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
         {% csrf_token %}
         <input type="hidden" name="plano" value="{{ plano }}">
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <h3 class="col-span-full text-xl font-semibold border-b pb-2 text-gray-800">Informações da Empresa</h3>
-            
             <div class="md:col-span-1">
                 <label class="block text-sm font-medium text-gray-700">Razão Social / Nome da Empresa</label>
                 <input type="text" name="nome_empresa" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
             </div>
-
             <div class="md:col-span-1">
                 <label class="block text-sm font-medium text-gray-700">CNPJ</label>
-                <input type="text" id="id_cnpj" name="cnpj" placeholder="00.000.000/0000-00" required 
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
+                <input type="text" id="id_cnpj" name="cnpj" placeholder="00.000.000/0000-00" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
             </div>
-
             <div class="md:col-span-1">
                 <label class="block text-sm font-medium text-gray-700">Cidade</label>
                 <input type="text" name="cidade" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
             </div>
-
             <div class="md:col-span-1">
                 <label class="block text-sm font-medium text-gray-700">Estado</label>
                 <select name="estado" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border bg-white">
@@ -45,22 +40,18 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <h3 class="col-span-full text-xl font-semibold border-b pb-2 text-gray-800">Contato e Representante</h3>
-            
             <div>
                 <label class="block text-sm font-medium text-gray-700">E-mail Empresarial</label>
                 <input type="email" name="email_empresarial" placeholder="exemplo@empresa.com" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
             </div>
-
             <div>
                 <label class="block text-sm font-medium text-gray-700">WhatsApp da Empresa</label>
                 <input type="text" id="id_whatsapp" name="whatsapp" placeholder="(00) 00000-0000" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
             </div>
-
             <div>
                 <label class="block text-sm font-medium text-gray-700">Nome do Representante</label>
                 <input type="text" name="nome_representante" placeholder="Nome Completo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
             </div>
-
             <div>
                 <label class="block text-sm font-medium text-gray-700">CPF do Representante</label>
                 <input type="text" id="id_cpf" name="cpf_representante" placeholder="000.000.000-00" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-2 border">
@@ -85,7 +76,42 @@
             </div>
         </div>
 
-        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-inner">
+        <div id="form-cartao" class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Número do Cartão</label>
+                <input type="text" id="card_number" placeholder="4242 4242 4242 4242" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-3 border">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Validade (MM/AA)</label>
+                <input type="text" id="card_expiry" placeholder="12/28" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-3 border">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">CVV / CVC</label>
+                <input type="text" id="card_cvv" placeholder="123" maxlength="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 p-3 border">
+            </div>
+        </div>
+
+        <div id="secao-boleto" class="hidden mt-6 bg-purple-50 border border-purple-200 p-6 rounded-2xl shadow-inner">
+            <h4 class="font-bold text-purple-900 mb-1">📄 Boleto Bancário Disponível</h4>
+            <p class="text-sm text-purple-700 mb-3">Clique no botão abaixo para baixar o arquivo PDF do boleto para simulação.</p>
+            <a id="btn-baixar-boleto" href="{% url 'baixar_boleto' %}?plano={{ plano_slug }}" target="_blank" class="inline-block bg-[#6F32D2] text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-[#5a24b0] transition shadow-sm">
+                Visualizar / Baixar Boleto
+            </a>
+        </div>
+
+        <div id="secao-pix" class="hidden mt-6 bg-purple-50 border border-purple-200 p-6 rounded-2xl shadow-inner text-center">
+            <h4 class="font-bold text-purple-900 mb-2 text-left">📱 Pagamento Instantâneo via PIX</h4>
+            <p class="text-sm text-purple-700 mb-4 text-left">Escaneie o QR Code abaixo com o aplicativo do seu banco para simular o pagamento da sua assinatura.</p>
+            <div class="inline-block bg-white p-4 rounded-xl border border-gray-200 shadow-sm mb-4">
+            <img src="../../../media/qrcodes/codigo_qr-300x300.webp" alt="">            </div>
+            <div class="max-w-md mx-auto text-left">
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Código Copia e Cola</label>
+                <input type="text" readonly value="00020101021126360014br.gov.bcb.pix0114000000000000005204000053039865405399.005802BR5918SOLUCOES%20TECH%20LTDA6009SAO%20PAULO62070503***6304ABCD" class="w-full bg-gray-100 border text-xs text-gray-600 rounded-lg p-2.5 font-mono select-all focus:outline-none">
+                <p class="text-xxs text-gray-400 mt-1">Clique três vezes no campo acima para selecionar e copiar todo o código.</p>
+            </div>
+        </div>
+
+        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-inner mt-8">
             <h3 class="font-bold mb-2 text-gray-800">Termos da Assinatura</h3>
             <div class="h-32 overflow-y-auto text-xs text-gray-600 mb-4 bg-white p-3 border rounded">
                 <p class="mb-2"><strong>1. Objeto:</strong> Esta assinatura concede ao usuário o status de Colaborador na plataforma...</p>
@@ -98,32 +124,101 @@
             </label>
         </div>
 
-        <button type="submit" name="finalizar" class="w-full py-4 bg-purple-600 text-white rounded-xl font-bold text-lg hover:bg-purple-700 transition transform hover:scale-[1.01] shadow-lg shadow-purple-200">
-            Finalizar Compra
-        </button>
+        <div class="mt-10 grid grid-cols-1 lg:grid-cols-5 gap-8 items-end">
+            <div class="lg:col-span-3 bg-gray-50 border border-gray-200 rounded-3xl p-8">
+                <h3 class="font-semibold text-lg mb-5 text-gray-800">Resumo da Assinatura</h3>
+                <div class="space-y-4 text-lg">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Plano {{ plano }}</span>
+                        <span class="font-semibold">R$ {{ plano_info.valor|floatformat:2 }}</span>
+                    </div>
+                    <div class="pt-6 border-t border-gray-300 flex justify-between text-2xl font-bold text-gray-900">
+                        <span>Total a pagar</span>
+                        <span>R$ {{ plano_info.valor|floatformat:2 }}</span>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 mt-6">
+                    Pagamento único • {{ plano_info.periodo|title }} • Acesso imediato
+                </p>
+            </div>
+            <div class="lg:col-span-2 mt-10">
+                <button type="submit" name="finalizar" class="w-full py-6 rounded-3xl font-bold text-xl border-2 border-gray-200 text-gray-700 transition-all duration-300 hover:border-[#6F32D2] hover:text-[#6F32D2] hover:bg-purple-50 hover:-translate-y-1 hover:shadow-xl cursor-pointer">
+                    Finalizar Compra - Assinatura {{ plano }}
+                </button>    
+                <p class="text-center text-xs text-gray-400 mt-3">
+                    Clique para confirmar sua assinatura {{ plano }}
+                </p>
+            </div>
+        </div>
     </form>
 </div>
 
 <script src="https://unpkg.com/imask"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Máscara para CNPJ
-        IMask(document.getElementById('id_cnpj'), {
-            mask: '00.000.000/0000-00'
-        });
+        // Inicialização das máscaras de entrada (Campos Gerais)
+        const cnpjInput = document.getElementById('id_cnpj');
+        const cpfInput = document.getElementById('id_cpf');
+        const whatsappInput = document.getElementById('id_whatsapp');
 
-        // Máscara para CPF
-        IMask(document.getElementById('id_cpf'), {
-            mask: '000.000.000-00'
-        });
+        if (cnpjInput) IMask(cnpjInput, { mask: '00.000.000/0000-00' });
+        if (cpfInput) IMask(cpfInput, { mask: '000.000.000-00' });
+        if (whatsappInput) IMask(whatsappInput, { mask: [{ mask: '(00) 0000-0000' }, { mask: '(00) 00000-0000' }] });
 
-        // Máscara para WhatsApp Dinâmica
-        IMask(document.getElementById('id_whatsapp'), {
-            mask: [
-                { mask: '(00) 0000-0000' },
-                { mask: '(00) 00000-0000' }
-            ]
-        });
+        // Inicialização das máscaras do Cartão de Crédito
+        const cardNumber = document.getElementById('card_number');
+        if (cardNumber) IMask(cardNumber, { mask: '0000 0000 0000 0000' });
+        if (document.getElementById('card_expiry')) IMask(document.getElementById('card_expiry'), { mask: '00/00' });
+        if (document.getElementById('card_cvv')) IMask(document.getElementById('card_cvv'), { mask: '0000' });
+
+        // Captura dos elementos de abas/conteúdos alternáveis
+        const radios = document.querySelectorAll('input[name="metodo"]');
+        const formCartao = document.getElementById('form-cartao');
+        const secaoBoleto = document.getElementById('secao-boleto');
+        const secaoPix = document.getElementById('secao-pix');
+
+        // Função responsável por gerenciar a visibilidade das abas de pagamento
+        function toggleAbas() {
+            const radioSelecionado = document.querySelector('input[name="metodo"]:checked');
+            if (!radioSelecionado) return;
+            
+            const selecionado = radioSelecionado.value;
+            
+            if (formCartao) formCartao.style.display = (selecionado === 'cartao') ? 'grid' : 'none';
+            if (secaoBoleto) secaoBoleto.style.display = (selecionado === 'boleto') ? 'block' : 'none';
+            if (secaoPix) secaoPix.style.display = (selecionado === 'qrcode') ? 'block' : 'none';
+        }
+
+        radios.forEach(radio => radio.addEventListener('change', toggleAbas));
+        toggleAbas();
+
+        // ========================================================
+        // CAPTURA BLINDADA CONTRA ERROS (PROJETO FINAL)
+        // ========================================================
+        const btnBoleto = document.getElementById('btn-baixar-boleto');
+        if (btnBoleto) {
+            btnBoleto.addEventListener('click', function(e) {
+                // Seletores seguros usando os atributos exatos do seu formulário
+                const inputEmpresa = document.querySelector('input[name="nome_empresa"]');
+                const inputCnpj = document.getElementById('id_cnpj');
+                const inputRepresentante = document.querySelector('input[name="nome_representante"]');
+                const inputCpf = document.getElementById('id_cpf');
+                const inputCidade = document.querySelector('input[name="cidade"]');
+                const inputEstado = document.querySelector('select[name="estado"]');
+
+                // Pega os valores com fallback seguro para não quebrar a URL
+                const nomeEmpresa = encodeURIComponent(inputEmpresa ? inputEmpresa.value : '');
+                const cnpj = encodeURIComponent(inputCnpj ? inputCnpj.value : '');
+                const representante = encodeURIComponent(inputRepresentante ? inputRepresentante.value : '');
+                const cpf = encodeURIComponent(inputCpf ? inputCpf.value : '');
+                const cidade = encodeURIComponent(inputCidade ? inputCidade.value : '');
+                const estado = encodeURIComponent(inputEstado ? inputEstado.value : '');
+
+                // Reconstrói a URL injetando os parâmetros limpos
+                const urlOriginal = "{% url 'baixar_boleto' %}?plano={{ plano_slug }}";
+                btnBoleto.href = `${urlOriginal}&nome_empresa=${nomeEmpresa}&cnpj=${cnpj}&nome_representante=${representante}&cpf=${cpf}&cidade=${cidade}&estado=${estado}`;
+            });
+        }
     });
 </script>
 {% endblock %}

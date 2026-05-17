@@ -62,7 +62,7 @@
             
             <div class="flex items-center space-x-6 text-[13px] font-medium text-[#515154]">
                 <a href="{% url 'criar_evento' %}" class="hover:text-black transition-colors">Criar evento</a>
-                <a href="{ % url 'minha_assinatura' % }" class="hover:text-black transition-colors">Minha assinatura</a>
+                <a href="{% url 'minha_assinatura' %}" class="hover:text-black transition-colors">Minha assinatura</a>
                 {% if user.is_authenticated %}
                     <a href="{% url 'meus_ingressos' %}" class="hover:text-black transition-colors">Ingressos</a>
                     <div class="relative group">

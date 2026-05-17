@@ -1,0 +1,189 @@
+<!--TUDO QUE FOI MODIFICDO VAI ENTRAR OK -->
+{% extends 'base.html' %} 
+
+{% block content %}
+<div class="max-w-5xl mx-auto py-12 px-6">
+    
+    <div class="mb-10 flex justify-between items-center border-b border-gray-200 pb-5">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Minhas Assinaturas</h1>
+            <p class="text-sm text-gray-500 mt-1">Consulte seus planos ativos, prazos e permissões corporativas na plataforma.</p>
+        </div>
+    </div>
+
+    {% if messages %}
+        <div class="mb-8 space-y-3">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-5 py-4 rounded-xl font-medium text-sm flex items-center shadow-sm">
+                        {{ message }}
+                    </div>
+                {% elif message.tags == 'error' %}
+                    <div class="bg-rose-50 border border-rose-200 text-rose-800 px-5 py-4 rounded-xl font-medium text-sm flex items-center shadow-sm">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if not assinaturas %}
+        <div class="bg-white rounded-2xl border-2 border-gray-200 p-12 text-center max-w-2xl mx-auto transition-all hover:border-[#6F32D2] hover:bg-purple-50/30">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Nenhuma assinatura encontrada</h3>
+            <p class="text-gray-500 text-sm mb-6 max-w-md mx-auto">
+                Você ainda não possui nenhum plano corporativo vinculado à sua conta de colaborador para poder criar e gerenciar eventos.
+            </p>
+            <a href="{% url 'pagina_assinatura' %}" class="inline-block bg-[#6F32D2] text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-[#5a24b0] transition shadow-md no-underline">
+                Conhecer Planos Disponíveis ➔
+            </a>
+        </div>
+
+    {% else %}
+        <div class="space-y-6 max-w-3xl mx-auto">
+            {% for assinatura in assinaturas %}
+            
+                <div class="bg-white rounded-2xl p-6 border-2 border-gray-200 text-gray-700 transition-all hover:border-[#6F32D2] hover:bg-purple-50 shadow-sm cursor-pointer">
+                    
+                    <div class="flex flex-col sm:flex-row justify-between items-start gap-4 pb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">Assinatura {{ assinatura.get_tipo_plano_display }}</h3>
+                            <p class="text-xs text-gray-500 mt-0.5">
+                                Empresa: <span class="font-medium text-gray-700">{{ request.user.perfil.nome_empresa|default:"Não Cadastrada" }}</span>
+                            </p>
+                            
+                            <div class="flex items-center gap-4 mt-3">
+                                <span class="text-xs text-gray-500">
+                                    Vencimento: <strong class="text-gray-800">{{ assinatura.data_vencimento|date:"d/m/Y" }}</strong>
+                                </span>
+                                <span class="text-xs text-gray-500">
+                                    Pagamento: <strong class="text-gray-800 uppercase">{{ assinatura.metodo_pagamento }}</strong>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="sm:text-right w-full sm:w-auto">
+                            {% if assinatura.is_expired %}
+                                <span class="bg-rose-100 border border-rose-300 text-rose-800 px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1 shadow-sm whitespace-nowrap">
+                                    Assinatura Expirada
+                                </span>
+                            {% elif not assinatura.ativa and assinatura.metodo_pagamento == 'boleto' %}
+                                <span class="bg-amber-100 border border-amber-300 text-amber-800 px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1 shadow-sm whitespace-nowrap">
+                                    Bloqueada até Confirmação
+                                </span>
+                            {% else %}
+                                <span class="bg-emerald-100 border border-emerald-300 text-emerald-800 px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1 shadow-sm whitespace-nowrap">
+                                    Assinatura Ativa
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-gray-200 flex justify-between items-center gap-4">
+                        
+                        <button onclick="toggleBeneficios('{{ assinatura.id }}')" 
+                                class="text-xs font-bold text-[#6F32D2] hover:text-[#5a24b0] flex items-center gap-1 cursor-pointer outline-none bg-transparent border-none p-0 whitespace-nowrap"
+                                style="color: #6F32D2 !important; background: transparent !important;">
+                            <span id="btn-text-{{ assinatura.id }}" style="color: #6F32D2 !important;">Ver informações</span>
+                        </button>
+
+                        <div class="flex items-center gap-3">
+                            <form method="POST" action="{% url 'cancelar_assinatura' assinatura.id %}" onsubmit="return confirm('Tem certeza que deseja cancelar esta assinatura? Esta ação removerá o plano do seu painel.');" class="inline m-0 p-0">
+                                {% csrf_token %}
+                                <button type="submit" class="w-auto bg-rose-100 hover:bg-rose-200 text-rose-700 px-4 py-2.5 rounded-xl font-bold text-xs transition shadow-sm cursor-pointer border-none whitespace-nowrap flex-shrink-0">
+                                    Cancelar assinatura
+                                </button>
+                            </form>
+
+                            {% if not assinatura.ativa and assinatura.metodo_pagamento == 'boleto' and not assinatura.is_expired %}
+                                <button onclick="toggleModalSimulador('{{ assinatura.id }}')" class="w-auto bg-[#6F32D2] text-white px-6 py-2.5 rounded-xl font-bold text-xs hover:bg-[#5a24b0] transition shadow cursor-pointer border-none whitespace-nowrap flex-shrink-0">
+                                    Confirmar Pagamento ➔
+                                </button>
+                            {% else %}
+                                <a href="{% url 'criar_evento' %}" class="w-auto bg-[#6F32D2] text-white px-6 py-2.5 rounded-xl font-bold text-xs hover:bg-[#5a24b0] transition shadow cursor-pointer border-none no-underline inline-block text-center whitespace-nowrap flex-shrink-0">
+                                    Criar Evento ➔
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div id="secao-beneficios-{{ assinatura.id }}" class="hidden mt-4 p-4 bg-purple-50 rounded-xl border border-purple-200 shadow-inner animate-fadeIn">
+                        <h4 class="text-xs font-bold text-purple-900 uppercase tracking-wider mb-2">Benefícios Inclusos no Plano:</h4>
+                        <ul class="text-xs text-purple-950 space-y-1.5 list-disc list-inside pl-1">
+                            {% for beneficio in beneficios %}
+                                <li>{{ beneficio }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div id="modal-simulador-{{ assinatura.id }}" class="hidden mt-4 p-5 bg-gray-50 border border-gray-200 rounded-xl shadow-inner animate-fadeIn space-y-4">
+                        <div class="flex justify-between items-center border-b border-gray-200 pb-2">
+                            <h4 class="font-bold text-sm text-gray-800">Simular Confirmação do Boleto</h4>
+                            <button onclick="toggleModalSimulador('{{ assinatura.id }}')" class="text-gray-400 hover:text-gray-600 text-xs font-bold bg-transparent border-none outline-none cursor-pointer">Fechar ✕</button>
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Informe o Nome do Representante e o CPF preenchidos no checkout para validar o pagamento junto à base de dados.
+                        </p>
+                        
+                        <form method="POST" action="{% url 'confirmar_boleto' %}" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                            {% csrf_token %}
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Nome do Representante</label>
+                                <input type="text" name="nome_verificar" required placeholder="Nome completo" 
+                                       class="w-full bg-white border border-gray-300 text-gray-900 rounded-lg p-3 text-xs focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition shadow-sm font-medium">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-700 uppercase mb-1">CPF do Representante</label>
+                                <input type="text" name="cpf_verificar" required placeholder="000.000.000-00" 
+                                       class="w-full bg-white border border-gray-300 text-gray-900 rounded-lg p-3 text-xs focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition class-cpf-mask shadow-sm font-medium">
+                            </div>
+                            <div class="sm:col-span-2 text-right pt-2">
+                                <button type="submit" class="w-auto bg-[#6F32D2] text-white px-5 py-2.5 rounded-lg font-bold text-xs hover:bg-[#5a24b0] transition shadow cursor-pointer border-none">
+                                    Verificar e Liberar Acesso
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</div>
+
+<script src="https://unpkg.com/imask"></script>
+<script>
+    function toggleBeneficios(id) {
+        const secao = document.getElementById('secao-beneficios-' + id);
+        const btnText = document.getElementById('btn-text-' + id);
+        
+        if (secao.classList.contains('hidden')) {
+            secao.classList.remove('hidden');
+            btnText.innerText = "Ocultar informações";
+        } else {
+            secao.classList.add('hidden');
+            btnText.innerText = "Ver informações";
+        }
+    }
+
+    function toggleModalSimulador(id) {
+        const modal = document.getElementById('modal-simulador-' + id);
+        modal.classList.toggle('hidden');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputsCpf = document.querySelectorAll('.class-cpf-mask');
+        inputsCpf.forEach(function(input) {
+            IMask(input, { mask: '000.000.000-00' });
+        });
+    });
+</script>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn { animation: fadeIn 0.25s ease-out forwards; }
+</style>
+{% endblock %}

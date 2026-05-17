@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Boleto Bancário Santander</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 10px; color: #000; margin: 0; padding: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: -1px; }
+        td { border: 1px solid #000; padding: 3px 5px; vertical-align: top; }
+        
+        /* Estilização do Topo do Banco */
+        .logo-banco { font-size: 18px; font-weight: bold; text-align: center; padding: 5px 0; }
+        .codigo-banco { font-size: 14px; font-weight: bold; border-left: 2px solid #000; border-right: 2px solid #000; text-align: center; vertical-align: middle; }
+        .linha-digitavel { font-size: 12px; font-weight: bold; text-align: right; vertical-align: middle; }
+        
+        /* Rótulos pequenos dos campos */
+        .titulo-campo { font-size: 7px; text-transform: uppercase; color: #333; display: block; margin-bottom: 1px; }
+        .valor-campo { font-size: 10px; font-weight: bold; display: block; min-height: 12px; }
+        .text-right { text-align: right; }
+        
+        /* Divisores mecânicos do boleto */
+        .recibo-titulo { font-size: 11px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; }
+        .linha-corte { margin: 15px 0; border-top: 1px dashed #000; text-align: right; font-size: 7px; color: #666; }
+        
+        /* Representação visual do código de barras */
+        .codigo-barras-mock { 
+            background-color: #000; 
+            height: 40px; 
+            width: 80%; 
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="recibo-titulo">A — Recibo do Pagador</div>
+    <table>
+        <tr>
+            <td width="20%" class="logo-banco">033 - SANTANDER</td>
+            <td width="15%" class="codigo-banco">033-7</td>
+            <td width="65%" class="linha-digitavel">{{ codigo_barras }}</td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td width="60%">
+                <span class="titulo-campo">Beneficiário</span>
+                <span class="valor-campo">{{ cedente_nome }} — CNPJ: {{ cedente_cnpj|default:"12.345.678/0001-99" }}</span>
+            </td>
+            <td width="20%">
+                <span class="titulo-campo">Agência / Código Beneficiário</span>
+                <span class="valor-campo">{{ agencia }} / {{ conta }}</span>
+            </td>
+            <td width="20%">
+                <span class="titulo-campo">Vencimento</span>
+                <span class="valor-campo">{{ vencimento }}</span>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td width="40%">
+                <span class="titulo-campo">Pagador</span>
+                <span class="valor-campo">{{ cliente.nome_empresa|default:"Não Informado" }}</span>
+            </td>
+            <td width="30%">
+                <span class="titulo-campo">CPF/CNPJ Pagador</span>
+                <span class="valor-campo">{{ cliente.cnpj|default:"Não Informado" }}</span>
+            </td>
+            <td width="30%">
+                <span class="titulo-campo">Valor do Documento</span>
+                <span class="valor-campo text-right">R$ {{ valor }}</span>
+            </td>
+        </tr>
+    </table>
+    
+    <div class="linha-corte">Corte aqui ................................................................................................................................................................................</div>
+
+    <div class="recibo-titulo">B — Ficha de Compensação (Apresentar no Caixa)</div>
+    <table>
+        <tr>
+            <td width="20%" class="logo-banco">033 - SANTANDER</td>
+            <td width="15%" class="codigo-banco">033-7</td>
+            <td width="65%" class="linha-digitavel">{{ codigo_barras }}</td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td width="75%">
+                <span class="titulo-campo">Local de Pagamento</span>
+                <span class="valor-campo">Até o vencimento, pague em qualquer banco ou casa lotérica.</span>
+            </td>
+            <td width="25%">
+                <span class="titulo-campo">Vencimento</span>
+                <span class="valor-campo" style="color: #b91c1c;">{{ vencimento }}</span>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td width="75%">
+                <span class="titulo-campo">Beneficiário</span>
+                <span class="valor-campo">{{ cedente_nome }} — CNPJ: {{ cedente_cnpj|default:"12.345.678/0001-99" }}</span>
+            </td>
+            <td width="25%">
+                <span class="titulo-campo">Agência / Código Beneficiário</span>
+                <span class="valor-campo">{{ agencia }} / {{ conta }}</span>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td width="20%">
+                <span class="titulo-campo">Data do Doc.</span>
+                <span class="valor-campo">{{ data_emissao }}</span>
+            </td>
+            <td width="20%">
+                <span class="titulo-campo">Nº do Documento</span>
+                <span class="valor-campo">0012345</span>
+            </td>
+            <td width="15%">
+                <span class="titulo-campo">Espécie Doc.</span>
+                <span class="valor-campo">DS</span>
+            </td>
+            <td width="20%">
+                <span class="titulo-campo">Aceite</span>
+                <span class="valor-campo">N</span>
+            </td>
+            <td width="25%">
+                <span class="titulo-campo">(=) Valor do Documento</span>
+                <span class="valor-campo text-right">R$ {{ valor }}</span>
+            </td>
+        </tr>
+    </table>
+    
+    <table>
+        <tr>
+            <td width="70%" style="height: 90px;">
+                <span class="titulo-campo">Instruções (Todas as instruções de cobrança são de responsabilidade do beneficiário)</span>
+                <span class="valor-campo" style="font-weight: normal; font-size: 8px; line-height: 11px;">
+                    • Sr. Caixa, não receber após 10 dias do vencimento.<br>
+                    • Em caso de dúvidas sobre a contratação, consulte o painel "Minhas Assinaturas".<br>
+                    • Referente à ativação do <strong>Plano {{ plano }}</strong> da plataforma.<br>
+                    • Cobrança gerada para fins educacionais/simulação de sistema.
+                </span>
+            </td>
+            <td width="30%" align="center" style="vertical-align: middle;">
+                <span class="titulo-campo">PIX QR CODE</span>
+                <img src="https://chart.googleapis.com/chart?chs=70x70&cht=qr&chl=http://127.0.0.1:8000/baixar_boleto/" width="70" height="70" style="margin-top: 2px;" />
+            </td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <td width="100%">
+                <span class="titulo-campo">Pagador</span>
+                <span class="valor-campo" style="font-size: 9px; font-weight: normal;">
+                    <strong>Empresa:</strong> {{ cliente.nome_empresa|default:"Não Informado" }} &nbsp;&nbsp;&nbsp; <strong>CNPJ:</strong> {{ cliente.cnpj|default:"Não Informado" }}<br>
+                    <strong>Representante:</strong> {{ cliente.nome_representante|default:"Não Informado" }} (CPF: {{ cliente.cpf|default:"Não Informado" }})<br>
+                    <strong>Endereço:</strong> {{ cliente.cidade|default:"Cidade Não Informada" }} - {{ cliente.estado|default:"UF" }}
+                </span>
+            </td>
+        </tr>
+    </table>
+
+    <table style="border: none; margin-top: 10px;">
+        <tr style="border: none;">
+            <td style="border: none;" width="80%">
+                <img src="https://bwipjs-api.metafloor.com/?bcid=code128&text={{ codigo_barras|cut:' ' }}&scale=1&height=12&includetext=false" width="380" height="38" />
+                <div style="font-size: 7px; text-align: center; width: 80%; margin-top: 2px;">Autenticação Mecânica - Ficha de Compensação</div>
+            </td>
+            <td style="border: none; font-size: 9px; font-weight: bold; vertical-align: bottom;" width="20%" align="right">
+                FICHA DE COMPENSAÇÃO
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

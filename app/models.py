@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
+from django.utils import timezone
+from datetime import datetime
 
 # 1. Primeiro as Tabelas de Apoio (Para o Evento poder usá-las)
 class Empresa(models.Model):
@@ -113,7 +115,11 @@ class Perfil(models.Model):
     whatsapp = models.CharField(max_length=20, blank=True, null=True)
     nome_representante = models.CharField(max_length=100, blank=True, null=True)
 
-
+    #Nova linha adicionada para a função do boleto funcionar 
+    assinatura_paga = models.BooleanField(default=False)
+    metodo_pagamento = models.CharField(max_length=20, blank=True, null=True)
+    def __str__(self):
+        return f"Perfil de {self.user.username}"
 
 class EventoData(models.Model):
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE, related_name='datas')
@@ -124,3 +130,30 @@ class EventoData(models.Model):
         verbose_name = "Data do Evento"
         verbose_name_plural = "Datas do Evento"
         ordering = ['data_inicio']
+
+#============================================================
+#novo models da minha assinatura
+class AssinaturaComprada(models.Model):
+    PLANO_CHOICES = (
+        ('mensal', 'Mensal'),
+        ('trimestral', 'Trimestral'),
+        ('anual', 'Anual'),
+    )
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assinaturas')
+    tipo_plano = models.CharField(max_length=20, choices=PLANO_CHOICES)
+    metodo_pagamento = models.CharField(max_length=20)
+    data_compra = models.DateTimeField(auto_now_add=True)
+    data_vencimento = models.DateTimeField()
+    ativa = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.tipo_plano.upper()} - {self.usuario.username}"
+@property
+def is_expired(self):
+        if self.data_vencimento:
+            # Transforma a data de vencimento para o formato correto e compara com hoje
+            if isinstance(self.data_vencimento, datetime):
+                return self.data_vencimento.date() < timezone.now().date()
+            return self.data_vencimento < timezone.now().date()
+        return False
+#==========================================================================
